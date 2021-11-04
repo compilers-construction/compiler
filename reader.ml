@@ -176,7 +176,15 @@ and nt_sexpr str =
   let nt1 = make_skipped_star nt1 in
   nt1 str
 
-let read_sexprs string = raise X_not_yet_implemented
+let read_sexprs string =
+let rec read_sexprs i sexprs =
+if i < (String.length string) then
+match (maybe nt_sexpr string i) with
+| {index_from; index_to; found = None} -> raise X_no_match
+| {index_from; index_to; found = Some(s)} -> (read_sexprs index_to (s :: sexprs))
+else sexprs
+in
+read_sexprs 0 [];;
   
 end;; (* struct Reader *)
 
