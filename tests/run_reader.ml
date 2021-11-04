@@ -19,7 +19,7 @@ let result = nt_sexprs string 0 in
 result.found
 
 let output =
-let output_sexprs = run_reader input) in
+let output_sexprs = run_reader input in
 let output_sexprs_str = List.map string_of_sexpr output_sexprs in
 String.concat " " output_sexprs_str;;
 
