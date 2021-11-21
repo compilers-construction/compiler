@@ -101,7 +101,7 @@ The VM comes with VScode, Intellij and Emacs all three with their Ocaml plugins.
 Ocaml, utop, gcc, gdb, nasm and whatever tool we figured you might need to work on this and future assignments. Of course
 You can always install any other tool you like from the Ubuntu repositories with `apt install`
 
-## Testing your assignment 
+## Testing the Reader 
 
 To help improve your chances at a good grade, we HIGHLY recommend you use a form of unit testing. However, we often see 
 cases of students who write their testing code inside their assignment (i.e. inside `reader.ml`), which often leads to 
@@ -148,6 +148,43 @@ PASS: (tests/cases/my_test.scm: #t)
 ```
 
 Again, **we highly encourage you to add your tests to the tests/cases/** so you can test your code quickly and often.
+
+## Testing your Tag-Parser
+With the skeleton you got for your tag-parser, you also got a testing setup that should be simple to use and extend.
+
+The entire testing setup can be found in `./tests/test_tag_parser.ml` - cases and testing code.
+
+When you first run `utop ./tests/test_tag_parser.ml` you should get the following output:
+```
+$ utop tests/test_tag_parser.ml 
+Exception: Syntax Error message: Sexpr structure not recognized for sexpr: #t: Boolean
+Exception: Syntax Error message: Sexpr structure not recognized for sexpr: #\a: Char
+.
+.
+.
+Exception: Syntax Error message: Sexpr structure not recognized for sexpr: `(#\a b ,c ,@d 'e (f)): QQ-list
+Exception: Syntax Error message: Sexpr structure not recognized for sexpr: `#(a ,b ,@c "d"): QQ-vector
+```
+Each line represents a test-case. The first part of the line is the result (currently all tests result in a thrown
+exception), the second part is the name of the test (e.g. "Boolean" or "QQ-vector" above)
+
+The abovce exceptions mean your tag parser failed to match the S-expression input to a known Scheme expression. Of 
+course as you implement parts of your parser, these test will pass, and eventually, your output should be:
+```
+PASS: Boolean
+PASS: Char
+.
+.
+.
+PASS: QQ-list
+PASS: QQ-vector
+```
+
+The tests coupled with this assignment are rather shallow. You are encouraged to add tests to this test file.
+A test case is an Ocaml record of the form `{name: string; input: sexpr; expected: expr}`, where name is just a string 
+used to help the user figure what failed and what passed, the input is sent to `tag_parse_experessions` and `expected` 
+is the expected output to compare with. Add new cases to the `cases` list in `test_tag_parser.ml` to extend your testing 
+setup. 
 
 ## Submission
 **To submit your code, you need to commit and push your work to this repository and associate your repository with
