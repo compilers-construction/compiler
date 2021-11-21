@@ -1,11 +1,4 @@
-# Assignment 1: Scheme Reader
-
-In this assignment you'll implement the first stage of your Scheme compiler, the Reader. The main task is to complete 
-the code in `reader.ml`.
-
-## Requirements
-
-Read the included PDF, `hw1.pdf`, in this repository to get the reader specifications and other requirements.
+# Scheme Compiler
 
 ## Git
 
