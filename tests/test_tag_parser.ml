@@ -1,3 +1,4 @@
+
 #use "tag-parser.ml";;
 
 type case = {name: string; input: sexpr; expected: expr};;
@@ -587,7 +588,7 @@ let cases = [
          (ScmLambdaSimple (["value"; "f"; "rest"],
            ScmIf (ScmVar "value",
             ScmApplic (ScmApplic (ScmVar "f", []), [ScmVar "value"]),
-            ScmApplic (ScmVar "reset", []))),
+            ScmApplic (ScmVar "rest", []))),
          [ScmVar "b"; ScmLambdaSimple ([], ScmVar "foo");
           ScmLambdaSimple ([], ScmApplic (ScmVar "display", [ScmVar "b"]))])),
       [ScmApplic (ScmVar "not", [ScmVar "b"])])))};
