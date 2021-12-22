@@ -179,33 +179,33 @@ used to help the user figure what failed and what passed, the input is sent to `
 is the expected output to compare with. Add new cases to the `cases` list in `test_tag_parser.ml` to extend your testing 
 setup. 
 
-## Testing your Semantic-Analyzer
+## Testing your Semantic-Analyser
 
 Same as with the Tag-parser, you are provided with a test setup to test your Semantic Analyser automatically. The 
-test setup can be found in `tests/test_semantic_analyzer.ml`.
+test setup can be found in `tests/test_semantic_analyser.ml`.
 
-When you first run  `utop ./tests/test_semantic_analyzer.ml` you should get the following output:
+When you first run  `utop ./tests/test_semantic_analyser.ml` you should get the following output:
 ```
-$ utop ./tests/test_semantic_analyzer.ml 
+$ utop ./tests/test_semantic_analyser.ml 
 Exception: Syntax not yet implemented: Expr-lexical annotation
 Exception: Syntax not yet implemented: Expr'-TP annotation
 Exception: Syntax not yet implemented: Expr'-box
 
 ```
 
-The test cases for the Semantic analyzer are divided into two types. Tests that take as input an `expr` type (to test
+The test cases for the Semantic analyser are divided into two types. Tests that take as input an `expr` type (to test
 the lexical addressing stage), and tests that take as input an `expr'` type (to test the other two stages). You can
 see the name of the test is prefixed with the test type ("Expr"/"Expr'").
 
 After you implement your Semantic Analyser the output you should see is:
 ```
-$ utop ./tests/test_semantic_analyzer.ml 
+$ utop ./tests/test_semantic_analyser.ml 
 PASS: Expr-lexical annotation
 PASS: Expr'-TP annotation
 PASS: Expr'-box
 ```
 
-You are encouraged to add your own tests to `test_semantic_analyzer.ml` since this is how we'll be testing your
+You are encouraged to add your own tests to `test_semantic_analyser.ml` since this is how we'll be testing your
 Semantic Analyser.
 
 ## Submission
