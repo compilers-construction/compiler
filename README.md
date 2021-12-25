@@ -208,6 +208,64 @@ PASS: Expr'-box
 You are encouraged to add your own tests to `test_semantic_analyser.ml` since this is how we'll be testing your
 Semantic Analyser.
 
+## Testing your Compiler
+In this assignment, we will treat your compiler as a black box, using the provided `Makefile` as the interface. 
+This means that we will provide a text file containing valid code, and expect as output an executable, which we will 
+run. We will not look at the results or behavior of the internal components of your compiler.
+
+### Testing Extended Syntax
+Since your compiler supports an extended syntax that isn't part of Scheme (e.g. interpolated strings), our test setup
+supports taking an "expected output" file. This "expected output" should contain Scheme code equivalent to the input 
+file but which does not use the extended syntax.
+
+Assuming you want to test `extended.scm` which contains some of our extended syntax. Include `extended.expected` file
+in the same directory as `extended.scm`, and the test procedure will use that `.expected` file to define the expected
+outout.
+
+### Test Procedure 
+
+We will run your compiler on various test files. For each test case, for example `foo` (which tests the file `foo.scm`),
+we will do three things:
+1. Test if `foo.expected` exists
+    1. If so run `foo.expected` in Chez Scheme
+    1. Otherwise, run `foo.scm` in Chez Scheme
+1. Collect the output from Chez Scheme in a list
+1. Run your compiler on `foo.scm`, obtaining an executable `foo`. We shall then execute `foo` and collect its output in 
+a list
+1. The two outputs collected from Chez and from the executable shall be compared using the `equal?` in Chez Scheme 
+(Chez's implementation of `equal?`, not that in your `stdlib.scm`).
+
+If the `equal?` returns `#t`, you passed the test case. You could lose a point if your code OCaml (*reader*, 
+*tag-parser*, *semantic-analyser*, *code-generator*) processed the input incorrectly, if `nasm` failed to assemble the 
+assembly file, if `gcc` failed to link your file, if the resulting executable caused a segmentation fault, if the 
+resulting executable generated unnecessary output, or if the `equal?` predicate in Chez Scheme returned anything other 
+than `#t` when comparing the two lists.
+
+Assuming you want to test the file `foo.scm`, you should run, from the root directory of your proect:
+``` bash 
+  testfile=foo; \
+  echo testfile = $testfile; \
+  make -f ./compiler/Makefile $testfile; \
+  expected_file=$([ -f $testfile.expected ] && echo $testfile.expected || echo $testfile.scm); \
+  echo expected_file = $expected_file; \
+  o1=`scheme -q < $expected_file`; \
+  o2=`./$testfile`; \
+  echo "(equal? '($o1) '($o2))" > test.scm; \
+  scheme -q < test.scm
+```
+
+#### Test Script
+The same testing procedure is implemented in `tests/test_compiler.sh`, except it defines `testfile` using a argument.
+To run the `foo` test case described above you should execute:
+``` 
+  tr -d \r tests/test_compiler.sh
+  tests/test_compiler.sh foo
+```
+
+Note that first command (the one starting with `tr`). That will fix any cases where a Windows OS has ruined the test
+script by changing the end of line from UNIX style (ASCII 10) to Windows style (ASCII 10 followed by ASCII 13). It's not
+a part of the test, just a workaround for that destructive behavior for Git on Windows.
+
 ## Submission
 **To submit your code, you need to commit and push your work to this repository and associate your repository with
 your BGU user**.
